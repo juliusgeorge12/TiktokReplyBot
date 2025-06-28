@@ -17,7 +17,7 @@ find . -maxdepth 1 -name "*.php" -exec cp {} dist/ \;
 
 echo "🛠️ Building the executable with pkg..."
 npx pkg bot/app.js --targets node18-macos-arm64 --output dist/tiktokReplyBot --public
-npx pkg gui.js --targets node16-macos-arm --output dist/Gui
+npx pkg gui.js --targets node18-macos-arm64 --output dist/Gui
 
 echo "📦 Packaging dist folder into archive..."
 
