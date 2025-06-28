@@ -24,7 +24,7 @@ jobs:
         run: chmod +x ./build.sh
 
       - name: Run build script
-        run: ./build_mac.sh
+        run: ./build.sh
 
       - name: Upload archive
         uses: actions/upload-artifact@v4
