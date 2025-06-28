@@ -23,7 +23,7 @@ const waitForKeypressOrTimeout = (timeoutMs = 10000, callback = null) => {
     //handlecallback
     const handCallback = () => {
       if (callback !== null && typeof callback === 'function') {
-        callback(result);
+        callback();
       }
     }
 

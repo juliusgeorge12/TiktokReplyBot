@@ -2,8 +2,8 @@
   "bot": {
     "video_interval": "15000",
     "comment_reply_interval": "5000",
-    "last_run": null,
-    "chrome_profile": null
+    "last_run": 1751126052048,
+    "chrome_profile": "TiktokAutomation3"
   },
   "tiktok": {
     "video_urls": [],
