@@ -12,6 +12,9 @@ cp -R backend dist/backend
 echo "📁 Copying css folder..."
 cp -R css dist/css
 
+echo "📁 Copying bin folder..."
+cp -R css dist/bin
+
 echo "📁 Copying root PHP files..."
 find . -maxdepth 1 -name "*.php" -exec cp {} dist/ \;
 
