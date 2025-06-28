@@ -3,24 +3,25 @@ const MAX_COMMENTS = 50;
 
 const reply = async (video_url, page, logger, dataStore) => {
   const replySleepTime = dataStore.read('bot.comment_reply_interval');
+
   await page.goto(video_url, { waitUntil: 'networkidle2' });
   await page.waitForSelector('body');
 
-  // Scroll to load comment icon
   await page.keyboard.press('PageDown');
   await sleep(2000);
 
   console.log('🗨️ Opening comments for ' + video_url + '...');
 
   await page.evaluate(() => {
-      const icon = document.querySelector('[data-e2e="comment-icon"]');
-      if (icon && icon.offsetParent !== null) {
-        icon.click();
-      }
+    const icon = document.querySelector('[data-e2e="comment-icon"]');
+    if (icon && icon.offsetParent !== null) {
+      icon.click();
+    }
   });
-  
+
   await sleep(3000);
   await page.waitForSelector('[data-e2e="comment-level-1"]');
+
   const commentCount = await page.$eval('[class*="CommentTitle"]', el => {
     const text = el.textContent.trim();
     const match = text.match(/\d+/);
@@ -34,40 +35,55 @@ const reply = async (video_url, page, logger, dataStore) => {
   );
 
   const replyCount = Math.min(commentCount, MAX_COMMENTS);
-  console.log(`Attempting to reply to ${replyCount} comment on the video`);
+  console.log(`Attempting to reply to ${replyCount} comment(s) on the video`);
 
   let commentReplied = 0;
   let canReplyMore = true;
 
   while (commentReplied < replyCount && canReplyMore) {
     if (!commentContainer) {
-      console.log('Error: No comment container found.');
-      return;
+      console.log('⚠️ No comment container found, stopping.');
+      canReplyMore = false;
+      break;
     }
 
-    const commentText = await commentContainer.$eval('[data-e2e="comment-level-1"]', el => el.textContent.trim());
+    const isConnected = await commentContainer.evaluate(el => el.isConnected);
+    if (!isConnected) {
+      console.log('⚠️ Comment container is detached, skipping.');
+      commentReplied++;
+      continue;
+    }
 
-    console.log('🗨️ Comment:', commentText);
+    try {
+      const commentText = await commentContainer.$eval('[data-e2e="comment-level-1"]', el => el.textContent.trim());
+      console.log('🗨️ Comment:', commentText);
 
-    const replyButtonHandle = await commentContainer.$('[role="button"][data-e2e="comment-reply-1"]');
+      // Fresh reply button selection
+      const freshReplyButton = await commentContainer.$('[role="button"][data-e2e="comment-reply-1"]');
+      if (freshReplyButton && await freshReplyButton.evaluate(el => el.isConnected)) {
+        await freshReplyButton.click();
+        await sleep(500);
 
-    if (replyButtonHandle) {
-      await replyButtonHandle.click();
-      await sleep(500);
+        const replyTexts = dataStore.read('tiktok.replies');
+        const reply = replyTexts[Math.floor(Math.random() * replyTexts.length)];
 
-      const replyTexts = dataStore.read('tiktok.replies');
-      const reply = replyTexts[Math.floor(Math.random() * replyTexts.length)];
-      await page.keyboard.type(reply);
-      await sleep(300);
-      await page.keyboard.press('Enter');
-      console.log(`Replied: ${reply}`);
-    } else {
-      console.log('Error: No reply button found inside the comment container.');
+        await page.keyboard.type(reply);
+        await sleep(300);
+        //await page.keyboard.press('Enter');
+
+        console.log(`✅ Replied: ${reply}`);
+      } else {
+        console.log('❌ No usable reply button found, skipping.');
+      }
+
+    } catch (err) {
+      console.error('❗ Error while processing comment:', err.message);
     }
 
     commentReplied++;
     await sleep(replySleepTime ?? 2000);
 
+    // Get next comment container
     const nextHandle = await page.evaluateHandle((el) => {
       let next = el.nextElementSibling;
       while (
@@ -81,10 +97,7 @@ const reply = async (video_url, page, logger, dataStore) => {
     }, commentContainer);
 
     commentContainer = nextHandle.asElement();
-
-    if (!commentContainer) {
-      canReplyMore = false;
-    }
+    canReplyMore = !!commentContainer;
   }
 };
 
