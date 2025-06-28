@@ -1,0 +1,24 @@
+{
+  "name": "tiktok-bot",
+  "version": "1.0.0",
+  "description": "TikTok auto-reply bot",
+  "bin": "bot/app.js",
+  "scripts": {
+    "build": "pkg . --targets node18-win-x64 --output dist/tiktokBot.exe"
+  },
+  "pkg": {
+    "assets": [
+      "backend/**/*.php",
+      "backend/includes/**/*.php",
+      "backend/store/**/*.json",
+      "backend/log/**/*.txt",
+      "node_modules/puppeteer-extra-plugin-stealth/**/*.*",
+      "node_modules/puppeteer/.local-chromium/**/*"
+    ]
+  },
+  "dependencies": {
+    "puppeteer": "^24.10.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "bot": {
+    "video_interval": "15000",
+    "comment_reply_interval": "5000",
+    "last_run": null,
+    "chrome_profile": null
+  },
+  "tiktok": {
+    "video_urls": [],
+    "replies": []
+  }
+}

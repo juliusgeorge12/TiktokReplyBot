@@ -1,0 +1,1 @@
+pkg gui.js --targets node16-win-x64 --output dist/Gui.exe
