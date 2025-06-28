@@ -69,7 +69,7 @@ const reply = async (video_url, page, logger, dataStore) => {
 
         await page.keyboard.type(reply);
         await sleep(300);
-        //await page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
 
         console.log(`✅ Replied: ${reply}`);
       } else {
