@@ -1,4 +1,3 @@
-// data.js
 const fs = require('fs');
 const path = require('path');
 
@@ -6,8 +5,11 @@ class Data {
   constructor() {
     this.filename = 'data.json';
 
-    // Use process.cwd() instead of __dirname to avoid writing to snapshot
-    this.fileDirectory = path.join(process.cwd(), 'backend', 'store');
+    // Always locate relative to the binary, not to snapshot or CWD
+    const isPkg = typeof process.pkg !== 'undefined';
+    const baseDir = isPkg ? path.dirname(process.execPath) : path.resolve(__dirname,'..', '..');
+
+    this.fileDirectory = path.join(baseDir, 'backend', 'store');
     this.filePath = path.join(this.fileDirectory, this.filename);
     this.data = {};
 
@@ -53,10 +55,12 @@ class Data {
   // Ensure store directory and file exists
   initialize() {
     if (!fs.existsSync(this.fileDirectory)) {
-      fs.mkdirSync(this.fileDirectory, { recursive: true }); // ✅ Re-enabled
+      console.log('[INFO] Creating storage directory at:', this.fileDirectory);
+      fs.mkdirSync(this.fileDirectory, { recursive: true });
     }
 
     if (!fs.existsSync(this.filePath)) {
+      console.log('[INFO] Creating data file at:', this.filePath);
       fs.writeFileSync(this.filePath, JSON.stringify({}, null, 2));
     }
   }

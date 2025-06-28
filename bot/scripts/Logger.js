@@ -1,4 +1,3 @@
-// logger.js
 const fs = require('fs');
 const path = require('path');
 
@@ -6,8 +5,10 @@ class Logger {
   constructor() {
     this.filename = 'log.txt';
 
-    // ✅ Use process.cwd() instead of __dirname
-    this.fileDirectory = path.join(process.cwd(), 'backend', 'logs');
+    // ✅ Safe, works for binaries on macOS and Windows
+    const isPkg = typeof process.pkg !== 'undefined';
+    const baseDir = isPkg ? path.dirname(process.execPath) : path.resolve(__dirname,'..', '..');
+    this.fileDirectory = path.join(baseDir, 'backend', 'logs');
     this.filePath = path.join(this.fileDirectory, this.filename);
     this.data = [];
 
@@ -29,7 +30,8 @@ class Logger {
 
   initialize() {
     if (!fs.existsSync(this.fileDirectory)) {
-      fs.mkdirSync(this.fileDirectory, { recursive: true }); // ✅ Safe outside snapshot
+      console.log('[INFO] Creating logs directory at:', this.fileDirectory);
+      fs.mkdirSync(this.fileDirectory, { recursive: true });
     }
 
     if (!fs.existsSync(this.filePath)) {

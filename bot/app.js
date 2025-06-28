@@ -42,6 +42,7 @@ puppeteer.use(stealth);
   const logger = new Logger;
   Storage.store('bot.last_run', Date.now());
   const userprofile = Storage.read('bot.chrome_profile');
+
   let chromePath, userDataDir;
 
   if (platform === 'win32') {
@@ -54,6 +55,7 @@ puppeteer.use(stealth);
     console.error('Unsupported platform');
     process.exit(1);
   }
+  console.log('Debug log: chrome profile: ' + userprofile);
   if (userprofile === null || userprofile === '') {
     console.log('chromeprofile not set, kindly set it using the gui interface');
     console.log('Press any key to exit, or wait 10 seconds...');
