@@ -3,10 +3,13 @@
     "video_interval": "15000",
     "comment_reply_interval": "5000",
     "last_run": null,
-    "chrome_profile": null
+    "chrome_profile": null,
+    "run_in_background": true
   },
   "tiktok": {
     "video_urls": [],
     "replies": []
-  }
+  },
+  "processed_videos": [],
+  "last_comment_position": []
 }
