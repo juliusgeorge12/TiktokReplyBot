@@ -60,7 +60,7 @@ const reply = async (video_url, page, logger, dataStore, shouldReply = false, re
     const replyBtn = await last?.$('[role="button"][data-e2e="comment-reply-1"]');
     if (replyBtn && await replyBtn.evaluate(el => el.isConnected)) {
       await replyBtn.click();
-      await sleep(1500);
+      await sleep(5000);
     } else {
       console.log('❌ Could not trigger lazy load. Stopping preload.');
       break;
@@ -141,7 +141,7 @@ const reply = async (video_url, page, logger, dataStore, shouldReply = false, re
       const replyBtn = await last.$('[role="button"][data-e2e="comment-reply-1"]');
       if (replyBtn && await replyBtn.evaluate(el => el.isConnected)) {
         await replyBtn.click();
-        await sleep(1500);
+        await sleep(5000);
       }
 
       const updatedCount = await page.$$eval('[data-e2e="comment-level-1"]', els => els.length);

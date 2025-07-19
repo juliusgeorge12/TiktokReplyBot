@@ -139,7 +139,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
       } else {
         console.error(`🚨 Error processing video ${video_url}:`, err.message);
       }
-      break;
+      //continue;
     }
 
     videos.splice(index, 1);
