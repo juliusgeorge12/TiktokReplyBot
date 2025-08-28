@@ -73,7 +73,6 @@ const reply = async (video_url, Page, logger, dataStore,  RUN_IN_TESTMODE = fals
             await Page.keyboard.press('Enter');
           }
           lastCommentPosition += 1;
-          console.log('last comment position: ', lastCommentPosition);
           await processTracker.setLastCommentPosition(video_url, lastCommentPosition);
           commentReplied++;
         } else {
