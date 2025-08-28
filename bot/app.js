@@ -70,7 +70,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
     await waitForKeypressOrTimeout();
     return;
   }
-  const shouldReply = !(await askYesNo('Do you want to run the bot in test mode? in test mode replies are not sent but filled'));
+  const runInTestMode = (await askYesNo('Do you want to run the bot in test mode? in test mode replies are not sent but filled'));
   const remember = askYesNo('do you want the bot to continue from where it stopped?');
 
   const browser = await puppeteer.launch({
@@ -81,6 +81,9 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
   });
 
   const page = await browser.newPage();
+  const defaultUA = await page.browser().userAgent();
+  // Override it if you want to remove "HeadlessChrome"
+  await page.setUserAgent(defaultUA.replace("HeadlessChrome", "Chrome"));
 
   try {
     await page.goto('https://www.tiktok.com', {
@@ -132,7 +135,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
     }
 
     try {
-      await replyVideoComment(video_url, page, logger, Storage, shouldReply, remember);
+      await replyVideoComment(video_url, page, logger, Storage, runInTestMode, remember);
     } catch (err) {
       if (err.name === 'TimeoutError') {
         console.error(`⏱️ Timeout loading video: ${video_url}. Skipping due to slow network.`);
