@@ -56,9 +56,9 @@ const reply = async (video_url, Page, logger, dataStore,  RUN_IN_TESTMODE = fals
   let commentContainer = await CommentListContainer.$('[class*="CommentObjectWrapper"], [class*="CommentItemContainer"]');
   let commentReplied = 0;
   const replyTexts = dataStore.read('tiktok.replies');
-  const replyText = replyTexts[Math.floor(Math.random() * replyTexts.length)];
   while (commentReplied < replyCount && commentContainer) {
     await commentContainer.scrollIntoView();
+    const replyText = replyTexts[Math.floor(Math.random() * replyTexts.length)];
     if (!(commentReplied < lastCommentPosition)) {
       const ReplyBtn = await commentContainer.$('[role="button"][data-e2e="comment-reply-1"]');
       if (ReplyBtn) {

@@ -71,7 +71,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
     return;
   }
   const runInTestMode = (await askYesNo('Do you want to run the bot in test mode? in test mode replies are not sent but filled'));
-  const remember = askYesNo('do you want the bot to continue from where it stopped?');
+  const remember = await askYesNo('do you want the bot to continue from where it stopped?');
 
   const browser = await puppeteer.launch({
     headless: Storage.read('bot.run_in_background') ?? true,
