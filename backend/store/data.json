@@ -3,27 +3,13 @@
     "video_interval": "10000",
     "comment_reply_interval": "5000",
     "last_run": 1764360209520,
-    "chrome_profile": "TiktokTest",
+    "chrome_profile": null,
     "run_in_background": false
   },
   "tiktok": {
-    "video_urls": [
-      "https://vm.tiktok.com/ZNRegWp5G",
-      "https://vm.tiktok.com/ZNRegsxLp/"
-    ],
-    "replies": [
-      "Ciaoooo, London club promoter here! Message my IG @platongus_official for guestlist to the most exclusive clubs + complimentary drinks! 🎤🍷🍾"
-    ]
+    "video_urls": [],
+    "replies": []
   },
   "processed_videos": [],
-  "last_comment_position": [
-    {
-      "video_url": "https://vm.tiktok.com/ZNRegsxLp/",
-      "position": 3
-    },
-    {
-      "video_url": "https://vm.tiktok.com/ZNRegWp5G",
-      "position": 1
-    }
-  ]
+  "last_comment_position": []
 }
