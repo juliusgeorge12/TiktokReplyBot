@@ -88,7 +88,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
   try {
     await page.goto('https://www.tiktok.com', {
       waitUntil: 'networkidle2',
-      timeout: 60000
+      timeout: 0
     });
   } catch (err) {
     if (err.name === 'TimeoutError') {

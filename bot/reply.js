@@ -68,9 +68,11 @@ const reply = async (video_url, Page, logger, dataStore,  RUN_IN_TESTMODE = fals
         if (replyBox) {
           await replyBox.click();
           await Page.keyboard.type(replyText, { delay: 80 });
+          const postBtn = await replyBox.$('[data-e2e="comment-post"]');
           await sleep(500);
-          if (!RUN_IN_TESTMODE) {
-            await Page.keyboard.press('Enter');
+          if (!RUN_IN_TESTMODE && postBtn) {
+            await postBtn.click();
+            //await Page.keyboard.press('Enter');
           }
           lastCommentPosition += 1;
           await processTracker.setLastCommentPosition(video_url, lastCommentPosition);

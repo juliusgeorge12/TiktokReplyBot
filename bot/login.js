@@ -37,7 +37,7 @@ async function login() {
     });
 
     const page = await browser.newPage();
-    await page.goto('https://www.tiktok.com/login/phone-or-email/email', { waitUntil: 'networkidle2' });
+    await page.goto('https://www.tiktok.com/login/phone-or-email/email', { waitUntil: 'networkidle2', timeout: 0 });
     await page.waitForSelector('body');
     const cookies = await page.cookies();
     const loggedIn = cookies.some(cookie => cookie.name.includes('sessionid'));
