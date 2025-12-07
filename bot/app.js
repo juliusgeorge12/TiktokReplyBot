@@ -80,7 +80,8 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
     defaultViewport: null
   });
 
-  const page = await browser.newPage();
+  const pages = await browser.pages();
+  const page = pages.length > 0 ? pages[0] : await browser.newPage();
   const defaultUA = await page.browser().userAgent();
   // Override it if you want to remove "HeadlessChrome"
   await page.setUserAgent(defaultUA.replace("HeadlessChrome", "Chrome"));

@@ -2,7 +2,7 @@
   "bot": {
     "video_interval": "10000",
     "comment_reply_interval": "5000",
-    "last_run": 1764360209520,
+    "last_run": 1765143739310,
     "chrome_profile": null,
     "run_in_background": false
   },
