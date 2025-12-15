@@ -17,7 +17,7 @@ const reply = async (video_url, Page, logger, dataStore,  RUN_IN_TESTMODE = fals
   commentIcon.click();
   await sleep(3000);
   await Page.waitForSelector('[data-e2e="comment-level-1"]');
-  const commentCount = await Page.$eval('[class*="CommentTitle"]', el => {
+  const commentCount = await Page.$eval('[class*="CommentTitle"], [class*="DivCommentCountContainer"]', el => {
     const text = el.textContent.trim();
     const match = text.match(/\d+/);
     return match ? parseInt(match[0], 10) : 0;
