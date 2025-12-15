@@ -1,6 +1,6 @@
 {
   "name": "tiktok-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TikTok auto-reply bot",
   "bin": "bot/app.js",
   "scripts": {
