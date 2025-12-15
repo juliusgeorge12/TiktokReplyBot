@@ -64,11 +64,15 @@ const reply = async (video_url, Page, logger, dataStore,  RUN_IN_TESTMODE = fals
       if (ReplyBtn) {
         await ReplyBtn.click();
         await sleep(500);
-        const replyBox = await CommentListContainer.$('[class*="DivCommentInputContainer"]');
-        if (replyBox) {
-          await replyBox.click();
+        const replyBox = await Page.$('[data-e2e="comment-input"]');//await CommentListContainer.$('[class*="DivCommentInputContainer"]');
+        //console.log(replyBox);
+        const editor = await Page.waitForSelector('[data-e2e="comment-input"] [contenteditable="true"]');
+  
+        if (editor /*replyBox*/) {
+          //await replyBox.click();
+          await editor.focus();
           await Page.keyboard.type(replyText, { delay: 80 });
-          const postBtn = await replyBox.$('[data-e2e="comment-post"]');
+          const postBtn = await /*replyBox*/Page.$('[data-e2e="comment-post"]');
           await sleep(500);
           if (!RUN_IN_TESTMODE && postBtn) {
             await postBtn.click();
